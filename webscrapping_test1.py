@@ -42,7 +42,7 @@ SobremesaA = tags[i].text
 
 #Inicia leitura da Janta
 i = i+5
-SaladaJ = tags[18].text
+SaladaJ = tags[i-1].text
 while tags[i].text != "Prato Principal":
     SaladaJ = SaladaJ + "\n "+tags[i].text
     i = i+1
