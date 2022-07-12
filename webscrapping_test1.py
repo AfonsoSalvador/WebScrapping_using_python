@@ -30,15 +30,19 @@ if(len(tags)>3):
     while tags[i].text != "Salada":
         i +=1
     i +=1
+
+    #SALAD OPTIONS
     SaladaA = tags[i].text
     i +=1
     while tags[i].text != "Prato Principal":
         SaladaA = SaladaA + "\n"+tags[i].text
         i +=1
 
+    #MAIN DISH
     i +=1
     PratoPA = tags[i].text
 
+    #VEGETARIAN OPTION
     i +=2
     OpcaoA = tags[i].text
 
@@ -56,7 +60,7 @@ if(len(tags)>3):
         i +=1
 
     print("Os pratos do almoço de hoje são:\n\nPara salada:\n",SaladaA,"\n\nPrato principal:\n",PratoPA, "\n\n Opção:\n",
-    OpcaoA,"\n\nAcompanhamento:\n",AcompanhamentoA,"\n\nGaurnição:\n",GuarnicaoA,"\n\nSobremesa:\n",SobremesaA)
+    OpcaoA,"\n\nAcompanhamento:\n",AcompanhamentoA,"\n\nGuarnição:\n",GuarnicaoA,"\n\nSobremesa:\n",SobremesaA)
 
     if(len(tags)>20):
     #Inicia leitura da Janta
@@ -85,7 +89,7 @@ if(len(tags)>3):
             i +=1
 
         print("\n\n\nOs pratos da Janta de hoje são:\n\nPara salada:\n",SaladaJ,"\n\nPrato principal:\n",PratoPJ, "\n\n Opção:\n",
-        OpcaoJ,"\n\nAcompanhamento:\n",AcompanhamentoJ,"\n\nGaurnição:\n",GuarnicaoJ,"\n\nSobremesa:\n",SobremesaJ)
+        OpcaoJ,"\n\nAcompanhamento:\n",AcompanhamentoJ,"\n\nGuarnição:\n",GuarnicaoJ,"\n\nSobremesa:\n",SobremesaJ)
 
 else:
     print("Ainda não foi informada as refeicões de hoje!\n")
