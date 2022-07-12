@@ -24,7 +24,7 @@ GuarnicaoJ = []
 SobremesaJ = []
 
 
-if(len(tags)>2):
+if(len(tags)>3):
     i=0
 
     while tags[i].text != "Salada":
