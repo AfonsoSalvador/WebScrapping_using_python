@@ -1,4 +1,5 @@
-import os 
+import os
+from weakref import ref 
 import tweepy
 from datetime import datetime
 import time
@@ -20,10 +21,10 @@ api_key_secret = os.getenv("api_key_secret")
 acess_token = os.getenv("acess_token")
 acess_token_secret = os.getenv("acess_token_secret")
 
-auth = tweepy.OAuth1UserHandler(api_key, api_key_secret)
+auth = tweepy.OAuthHandler(api_key, api_key_secret)
 auth.set_access_token(acess_token, acess_token_secret)
 
-api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify=True)
+api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
 #--------------------------------------------------------------
@@ -136,20 +137,32 @@ def get_Meal(meal_num):
 def main():
 
 
-    if((datetime.now().time().hour==9)and(datetime.now().time().minute==00)):
+    if((datetime.now().time().hour==13)and(datetime.now().time().minute==5)):
         refeicao= meal()
         refeicao = get_Meal(1)
         if(refeicao):
-            api.update_status("O almoço de hoje é:\n\nPara salada🥗:\n",refeicao.Salada,"\n\nPrato principal🍽️:\n",refeicao.Prato, "\n\n Opção🍽️:\n",
-            refeicao.Opcao,"\n\nAcompanhamento🥣:\n",refeicao.Acompanhamento,"\n\nGuarnição🌿:\n",refeicao.Guarnicao,"\n\nSobremesa🍎:\n",refeicao.Sobremesa)
+            if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>160):
+                tweet1 = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2"
+                tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
+                api.update_status(tweet1)
+                api.update_status(tweet2)
+            else:
+                tweet = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
+                api.update_status(tweet)
             time.sleep(120)
 
     if((datetime.now().time().hour==15)and(datetime.now().time().minute==00)):
         refeicao= meal()
         refeicao = get_Meal(2)
         if(refeicao):
-            api.update_status("A janta de hoje é:\n\nPara salada🥗:\n",refeicao.Salada,"\n\nPrato principal🍽️:\n",refeicao.Prato, "\n\n Opção🍽️:\n",
-            refeicao.Opcao,"\n\nAcompanhamento🥣:\n",refeicao.Acompanhamento,"\n\nGuarnição🌿:\n",refeicao.Guarnicao,"\n\nSobremesa🍎:\n",refeicao.Sobremesa)
+            if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>161):
+                tweet1 = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2"
+                tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
+                api.update_status(tweet1)
+                api.update_status(tweet2)
+            else:
+                tweet = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
+                api.update_status(tweet)
             time.sleep(120)
         
 
@@ -160,3 +173,7 @@ if __name__ == "__main__":
     while True:
         main()
         time.sleep(30)
+
+        #Weekend check
+        if(datetime.today().weekday()==5):
+            time.sleep(172800)
