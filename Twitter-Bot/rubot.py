@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+from os import read,write
 import os 
 import tweepy
 import time
@@ -10,21 +10,21 @@ from bs4 import BeautifulSoup
 #--------------------------------------------------------------
 # APPLYING DOTENV
 #--------------------------------------------------------------
-dotenv.load_dotenv(dotenv.find_dotenv())
+#dotenv.load_dotenv(dotenv.find_dotenv())
 
 
 #--------------------------------------------------------------
 # STARTING UP TWEEPY
 #--------------------------------------------------------------
-api_key = os.getenv("api_key")
-api_key_secret = os.getenv("api_key_secret")
-acess_token = os.getenv("acess_token")
-acess_token_secret = os.getenv("acess_token_secret")
+#api_key = os.getenv("api_key")
+#api_key_secret = os.getenv("api_key_secret")
+#acess_token = os.getenv("acess_token")
+#acess_token_secret = os.getenv("acess_token_secret")
 
-auth = tweepy.OAuth1UserHandler(api_key, api_key_secret)
-auth.set_access_token(acess_token, acess_token_secret)
+#auth = tweepy.OAuth1UserHandler(api_key, api_key_secret)
+#auth.set_access_token(acess_token, acess_token_secret)
 
-api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify=True)
+#api = tweepy.API(auth, wait_on_rate_limit = True, wait_on_rate_limit_notify=True)
 
 
 #--------------------------------------------------------------
@@ -48,8 +48,8 @@ def get_Meal(meal_num):
 
     if(meal_num==1):
         #trating the possibility that the site doesnt have such informaton
-        if(len(tags)>3):
-            return NULL
+        if(len(tags)<3):
+            return None
 
         i=0
 
@@ -72,7 +72,7 @@ def get_Meal(meal_num):
         i +=2
         refeicao.Opcao = tags[i].text
 
-        
+
         i=i+2
         refeicao.Acompanhamento = tags[i].text
 
@@ -90,8 +90,8 @@ def get_Meal(meal_num):
     
     if (meal_num==2):
         #trating the possibility that the site doesnt have such informaton
-        if(len(tags)>20):
-            return NULL
+        if(len(tags)<20):
+            return None
 
         i=0
         while tags[i].text != "Salada":
@@ -134,3 +134,23 @@ def get_Meal(meal_num):
 
 
 
+def main():
+    num=int(input("Teste de código seu vagabundo\nDigite 1 para o almoço e digite 2 pra janta:\n"))
+    refeicao= meal()
+    refeicao=get_Meal(num)
+    if(refeicao==None):
+        print("O cardápio ainda não está disponível! Volte mais tarde!")
+        return 0
+    if(num==1):
+        print("O almoço de hoje é:\n\n")
+    if(num==2):
+        print("A janta de hoje é:\n\n")
+
+    print("Para salada:\n",refeicao.Salada,"\n\nPrato principal:\n",refeicao.Prato, "\n\n Opção:\n",
+    refeicao.Opcao,"\n\nAcompanhamento:\n",refeicao.Acompanhamento,"\n\nGuarnição:\n",refeicao.Guarnicao,"\n\nSobremesa:\n",refeicao.Sobremesa)
+
+    return 0
+
+
+if __name__ == "__main__":
+    main()
