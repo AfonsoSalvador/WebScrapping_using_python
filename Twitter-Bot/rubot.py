@@ -191,15 +191,15 @@ def main():
         else:
             print("Não encontrei o almoço\n")
 
-    if((datetime.now().time().hour==20)and(datetime.now().time().minute==15)):
+    if((datetime.now().time().hour==20)and(datetime.now().time().minute==18)):
         refeicao= meal()
         refeicao = get_Meal(2)
         if(refeicao):
             if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>161):
                 tweet1 = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2"
                 tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
-                api.update_status(tweet2)
-                api.update_status(tweet1)
+                api.update_status("tweet2")
+                api.update_status("tweet1")
                 #print(tweet1)
                 #print(tweet2)
                 print("Janta tweetada com sucesso!\n")
