@@ -191,7 +191,7 @@ def main():
         else:
             print("Não encontrei o almoço\n")
 
-    if((datetime.now().time().hour==19)and(datetime.now().time().minute==00)):
+    if((datetime.now().time().hour==20)and(datetime.now().time().minute==15)):
         refeicao= meal()
         refeicao = get_Meal(2)
         if(refeicao):
