@@ -67,19 +67,35 @@ def get_Meal(meal_num):
         #MAIN DISH
         i +=1
         refeicao.Prato = tags[i].text
-
+        i +=1
+        while tags[i].text != "Opção":
+            refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+            i +=1
+        
         #VEGETARIAN OPTION
-        i +=2
+        i +=1
         refeicao.Opcao = tags[i].text
+        i +=1
+        while tags[i].text != "Acompanhamento":
+            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            i +=1
 
-
-        i=i+2
+        #SIDE DISH
+        i+=1
         refeicao.Acompanhamento = tags[i].text
+        i +=1
+        while tags[i].text != "Guarnição":
+            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            i +=1
 
-        i=i+2
+        i=i+1
         refeicao.Guarnicao= tags[i].text
+        i +=1
+        while tags[i].text != "Sobremesa":
+            refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+            i +=1
 
-        i=i+2
+        i+=1
         refeicao.Sobremesa = tags[i].text
         i +=1
         while tags[i].text != "*cardápio sujeito a alterações":
@@ -112,18 +128,35 @@ def get_Meal(meal_num):
         #MAIN DISH
         i +=1
         refeicao.Prato = tags[i].text
-
+        i +=1
+        while tags[i].text != "Opção":
+            refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+            i +=1
+        
         #VEGETARIAN OPTION
-        i +=2
+        i +=1
         refeicao.Opcao = tags[i].text
+        i +=1
+        while tags[i].text != "Acompanhamento":
+            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            i +=1
 
-        i=i+2
+        #SIDE DISH
+        i+=1
         refeicao.Acompanhamento = tags[i].text
+        i +=1
+        while tags[i].text != "Guarnição":
+            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            i +=1
 
-        i=i+2
+        i=i+1
         refeicao.Guarnicao= tags[i].text
+        i +=1
+        while tags[i].text != "Sobremesa":
+            refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+            i +=1
 
-        i=i+2
+        i+=1
         refeicao.Sobremesa = tags[i].text
         i +=1
         while tags[i].text != "*cardápio sujeito a alterações":
@@ -143,45 +176,51 @@ def main():
         if(refeicao):
             if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>160):
                 tweet1 = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2\n"
-                tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
+                tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
                 api.update_status(tweet2)
                 api.update_status(tweet1)
+                print(tweet1)
+                print(tweet2)
                 print("Almoço tweetado com sucesso!\n")
             else:
-                tweet = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
+                tweet = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa
                 api.update_status(tweet)
-                #print(tweet)
+                print(tweet)
                 print("Almoço tweetado com sucesso!\n")
             time.sleep(120)
+        else:
+            print("Não encontrei o almoço\n")
 
-    if((datetime.now().time().hour==15)and(datetime.now().time().minute==00)):
+    if((datetime.now().time().hour==16)and(datetime.now().time().minute==00)):
         refeicao= meal()
         refeicao = get_Meal(2)
         if(refeicao):
             if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>161):
                 tweet1 = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2"
                 tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
-                api.update_status(tweet2)
                 api.update_status(tweet1)
-                #print(tweet1)
-                #print(tweet2)
+                api.update_status(tweet2)
+                print(tweet1)
+                print(tweet2)
                 print("Janta tweetada com sucesso!\n")
             else:
                 tweet = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
                 api.update_status(tweet)
-                #print(tweet)
+                print(tweet)
                 print("Janta tweetada com sucesso!\n")
             time.sleep(120)
-        
+        else:
+            print("Não encontrei o almoço\n")
 
     return 0
 
 
 if __name__ == "__main__":
     while True:
-        main()
-        time.sleep(30)
-
+        
         #Weekend check
-        if(datetime.today().weekday()==5):
-            time.sleep(172800)
+        if(datetime.today().weekday()==5 or datetime.today().weekday()==6):
+            time.sleep(28800)
+        else:
+            main()
+            time.sleep(30)
