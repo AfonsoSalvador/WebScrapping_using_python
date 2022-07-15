@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 import dotenv
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 # --------------------------------------------------------------
 # APPLYING DOTENV
@@ -42,14 +42,16 @@ class meal(object):
 
 def get_Meal(meal_num):
 
-    content = requests.get('https://ru.ufes.br/cardapio/2022-07-22').text
+    content = requests.get('https://ru.ufes.br/cardapio').text
     soup = BeautifulSoup(content, 'lxml')
     tags = soup.find_all('p')
     refeicao = meal()
 
+ 
+
     if(meal_num == 1):
         # trating the possibility that the site doesnt have such informaton
-        if(len(tags) < 3):
+        if(len(tags) < 5):
             return None
 
         i = 0
