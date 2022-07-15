@@ -212,6 +212,7 @@ def main():
         if(refeicao):
             tweet_meal(refeicao, 1)
         else:
+            print("Nao encontrei, esperando uma horinha")
             time.sleep(3600)
             refeicao = get_Meal(1)
             if(refeicao):
@@ -228,6 +229,7 @@ def main():
         if(refeicao):
             tweet_meal(refeicao, 2)
         else:
+            print("Nao encontrei, esperando uma horinha")
             time.sleep(3600)
             refeicao = get_Meal(2)
             if(refeicao):
@@ -246,7 +248,9 @@ if __name__ == "__main__":
         
         # Weekend check
         if(datetime.today().weekday()==5 or datetime.today().weekday()==6):
+            print("Indo dormir para o final de semana, até lá!")
             time.sleep(28800)
+            print("Acordei!")
         else:
             main()
             time.sleep(30)
