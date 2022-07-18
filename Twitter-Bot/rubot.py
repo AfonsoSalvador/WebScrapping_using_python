@@ -171,8 +171,8 @@ def get_Meal(meal_num):
 
 def tweet_meal(refeicao, num_refeicao):
     if(num_refeicao == 1):
-        if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa) > 160):
-            tweet1 = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2\n"
+        if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa) > 166):
+            tweet1 = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\nOpção🍽️:\n" + refeicao.Opcao + "\n1/2\n"
             tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
             api.update_status(tweet2)
             api.update_status(tweet1)
@@ -180,14 +180,14 @@ def tweet_meal(refeicao, num_refeicao):
             #print(tweet2)
             print("Almoço tweetado com sucesso!\n")
         else:
-            tweet = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa
+            tweet = "O almoço de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\nOpção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa
             api.update_status(tweet)
             #print(tweet)
             print("Almoço tweetado com sucesso!\n")
         time.sleep(120)
     elif(num_refeicao==2):
-        if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>161):
-            tweet1 = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n1/2"
+        if(len(refeicao.Acompanhamento+refeicao.Guarnicao+refeicao.Opcao+refeicao.Prato+refeicao.Salada+refeicao.Sobremesa)>167):
+            tweet1 = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\nOpção🍽️:\n" + refeicao.Opcao + "\n1/2"
             tweet2 = "Acompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao + "\n\nSobremesa🍎:\n" + refeicao.Sobremesa + "\n2/2"
             api.update_status(tweet2)
             api.update_status(tweet1)
@@ -195,7 +195,7 @@ def tweet_meal(refeicao, num_refeicao):
             #print(tweet2)
             print("Janta tweetada com sucesso!\n")
         else:
-            tweet = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\n Opção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao,"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
+            tweet = "A janta de hoje é:\n\nPara salada🥗:\n" + refeicao.Salada + "\n\nPrato principal🍽️:\n" + refeicao.Prato + "\n\nOpção🍽️:\n" + refeicao.Opcao + "\n\nAcompanhamento🥣:\n" + refeicao.Acompanhamento + "\n\nGuarnição🌿:\n" + refeicao.Guarnicao+"\n\nSobremesa🍎:\n" + refeicao.Sobremesa
             api.update_status(tweet)
             #print(tweet)
             print("Janta tweetada com sucesso!\n")
