@@ -2,6 +2,8 @@ import os
 from weakref import ref
 import tweepy
 from datetime import datetime
+import email
+import smtplib
 import time
 import dotenv
 import requests
@@ -26,6 +28,31 @@ auth.set_access_token(acess_token, acess_token_secret)
 
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
+# --------------------------------------------------------------
+# STARTING UP EMAIL ALERT SYSTEM
+# --------------------------------------------------------------
+
+SENDER = os.getenv("email_sender")
+RECEIVER = os.getenv("email_reciever")
+APP_PASSWORD = os.getenv("app_password")
+SUBJECT = "RuBot alert"
+BODY = "<h3>Alerta de erro RuBot</h3><br>Esta foi a mensagem de erro encontrada:<br>"
+
+def send_email(error_text):
+    msg = email.message.Message()
+    msg['Subject'] = SUBJECT
+    msg['From'] = SENDER
+    msg['To'] = RECEIVER
+    password = APP_PASSWORD 
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload(BODY + error_text)
+
+    s = smtplib.SMTP('smtp.gmail.com: 587')
+    s.starttls()
+    # Login Credentials for sending the mail
+    s.login(msg['From'], password)
+    s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+    print(f'Email enviado para {RECEIVER}')
 
 # --------------------------------------------------------------
 # Collecting and treating Menu information
@@ -47,126 +74,132 @@ def get_Meal(meal_num):
     tags = soup.find_all('p')
     refeicao = meal()
 
- 
+    try:
 
-    if(meal_num == 1):
-        # trating the possibility that the site doesnt have such informaton
-        if(len(tags) < 5):
-            return None
+        if(meal_num == 1):
+            # treating the possibility that the site doesnt have such informaton
+            if(len(tags) < 9):
+                return None
 
-        i = 0
+            i = 0
 
-        while tags[i].text != "Salada":
-            i += 1
-        i += 1
-
-        # SALAD OPTIONS
-        refeicao.Salada = tags[i].text
-        i += 1
-        while tags[i].text != "Prato Principal":
-            refeicao.Salada = refeicao.Salada + "\n"+tags[i].text
+            while "Salada" not in tags[i].text:
+                i += 1
             i += 1
 
-        # MAIN DISH
-        i += 1
-        refeicao.Prato = tags[i].text
-        i += 1
-        while tags[i].text != "Opção":
-            refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+            # SALAD OPTIONS
+            refeicao.Salada = tags[i].text
+            i += 1
+            while "Prato Principal" not in tags[i].text:
+                refeicao.Salada = refeicao.Salada + "\n"+tags[i].text
+                i += 1
+
+            # MAIN DISH
+            i += 1
+            refeicao.Prato = tags[i].text
+            i += 1
+            while "Opção" not in tags[i].text:
+                refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+                i += 1
+
+            # VEGETARIAN OPTION
+            i += 1
+            refeicao.Opcao = tags[i].text
+            i += 1
+            while "Acompanhamento" not in tags[i].text:
+                refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+                i += 1
+
+            # SIDE DISH
+            i += 1
+            refeicao.Acompanhamento = tags[i].text
+            i += 1
+            while "Guarnição" not in tags[i].text:
+                refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+                i += 1
+
+            i = i+1
+            refeicao.Guarnicao = tags[i].text
+            i += 1
+            while "Sobremesa" not in tags[i].text:
+                refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+                i += 1
+
+            i += 1
+            refeicao.Sobremesa = tags[i].text
+            i += 1
+            while "*" not in tags[i].text:
+                refeicao.Sobremesa = refeicao.Sobremesa + "\n"+tags[i].text
+                i += 1
+
+            return refeicao
+
+        if (meal_num == 2):
+            # treating the possibility that the site doesnt have such informaton
+            if(len(tags) < 20):
+                return None
+
+            i = 0
+            while "Salada" not in tags[i].text:
+                i += 1
             i += 1
 
-        # VEGETARIAN OPTION
-        i += 1
-        refeicao.Opcao = tags[i].text
-        i += 1
-        while tags[i].text != "Acompanhamento":
-            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            while "Salada" not in tags[i].text:
+                i += 1
             i += 1
 
-        # SIDE DISH
-        i += 1
-        refeicao.Acompanhamento = tags[i].text
-        i += 1
-        while tags[i].text != "Guarnição":
-            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            # SALAD OPTIONS
+            refeicao.Salada = tags[i].text
             i += 1
+            while "Prato Principal" not in tags[i].text:
+                refeicao.Salada = refeicao.Salada + "\n"+tags[i].text
+                i += 1
 
-        i = i+1
-        refeicao.Guarnicao = tags[i].text
-        i += 1
-        while tags[i].text != "Sobremesa":
-            refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+            # MAIN DISH
             i += 1
-
-        i += 1
-        refeicao.Sobremesa = tags[i].text
-        i += 1
-        while tags[i].text != "*cardápio sujeito a alterações":
-            refeicao.Sobremesa = refeicao.Sobremesa + "\n"+tags[i].text
+            refeicao.Prato = tags[i].text
             i += 1
+            while "Opção" not in tags[i].text:
+                refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+                i += 1
 
-        return refeicao
-
-    if (meal_num == 2):
-        # trating the possibility that the site doesnt have such informaton
-        if(len(tags) < 20):
-            return None
-
-        i = 0
-        while tags[i].text != "Salada":
+            # VEGETARIAN OPTION
             i += 1
-        i += 1
-
-        while tags[i].text != "Salada":
+            refeicao.Opcao = tags[i].text
             i += 1
-        i += 1
+            while "Acompanhamento" not in tags[i].text:
+                refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+                i += 1
 
-        # SALAD OPTIONS
-        refeicao.Salada = tags[i].text
-        i += 1
-        while tags[i].text != "Prato Principal":
-            refeicao.Salada = refeicao.Salada + "\n"+tags[i].text
+            # SIDE DISH
             i += 1
-
-        # MAIN DISH
-        i += 1
-        refeicao.Prato = tags[i].text
-        i += 1
-        while tags[i].text != "Opção":
-            refeicao.Prato = refeicao.Prato + "\n"+tags[i].text
+            refeicao.Acompanhamento = tags[i].text
             i += 1
+            while "Guarnição" not in tags[i].text:
+                refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+                i += 1
 
-        # VEGETARIAN OPTION
-        i += 1
-        refeicao.Opcao = tags[i].text
-        i += 1
-        while tags[i].text != "Acompanhamento":
-            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
+            i = i+1
+            refeicao.Guarnicao = tags[i].text
             i += 1
+            while "Sobremesa" not in tags[i].text:
+                refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+                i += 1
 
-        # SIDE DISH
-        i += 1
-        refeicao.Acompanhamento = tags[i].text
-        i += 1
-        while tags[i].text != "Guarnição":
-            refeicao.Opcao = refeicao.Opcao + "\n"+tags[i].text
             i += 1
-
-        i = i+1
-        refeicao.Guarnicao = tags[i].text
-        i += 1
-        while tags[i].text != "Sobremesa":
-            refeicao.Guarnicao = refeicao.Guarnicao + "\n"+tags[i].text
+            refeicao.Sobremesa = tags[i].text
             i += 1
+            while "*" not in tags[i].text:
+                refeicao.Sobremesa = refeicao.Sobremesa + "\n"+tags[i].text
+                i += 1
 
-        i += 1
-        refeicao.Sobremesa = tags[i].text
-        i += 1
-        while tags[i].text != "*cardápio sujeito a alterações":
-            refeicao.Sobremesa = refeicao.Sobremesa + "\n"+tags[i].text
-            i += 1
+            return refeicao
 
-        return refeicao
+    except Exception as error:
+        send_email(error)
+        return None
+
+
 
 
 def tweet_meal(refeicao, num_refeicao):
