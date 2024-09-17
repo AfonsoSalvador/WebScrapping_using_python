@@ -1,0 +1,5 @@
+.git/
+*.png
+local_webscrapping.py
+Procfile
+webscrapping_test1.py
